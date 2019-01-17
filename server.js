@@ -29,6 +29,7 @@ apiApp.all("/*", function(req, res, next) {
 
 var corsFilter = function(req, res, next) {
   res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');	// Allow pre-flight requests
   next();
 };
 
@@ -37,7 +38,8 @@ apiApp.use(corsFilter);
 
 apiApp.use(express.static(__dirname));	// Serve static files from the same directory as this file
 
-apiApp.get("/api/posts", function(req, res) {
+// Accepts any HTTP method
+apiApp.all("/api/posts", function(req, res) {
   res.json(POSTS);
 });
 
