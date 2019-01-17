@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body onload="getBlogPosts()">
+<style>
+  .post {margin-bottom: 2px;}
+</style>
+<div id="output">
+
+<script>
+var METHOD = "GET";
+var URL = "http://localhost:9999/api/posts";
+
+
+var ajaxFactory = function(method, url) {
+  var xhr = new XMLHttpRequest();
+  xhr.onerror = function() {
+    document.getElementById('output').innerHTML = "ERROR";
+  };
+  xhr.open(method, url, true);
+  return xhr;
+}
+
+var getBlogPosts = function() {
+  var xhr = ajaxFactory(METHOD, URL);
+  xhr.onload = function() {
+    var data = JSON.parse(xhr.responseText);
+    var elem = document.getElementById('output');
+    for (var postId in data) {
+      var postText = data[postId]['post'];
+      var div = document.createElement('div');
+      div.className = 'post';
+      div.appendChild(document.createTextNode(postText));
+      elem.appendChild(div);
+    }
+  }
+  xhr.send();	// Make AJAX request
+}
+</script>
+</div>
+</body>
+</html>
